@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<groupId>com.tvd12</groupId>
 	<artifactId>ezyfox-sfs2x-archetype</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 
 	<name>ezyfox-sfs2x-archetype</name>
@@ -57,17 +57,12 @@
 		<url>https://travis-ci.org/youngmonkeys/ezyfox-sfs2x-archetype</url>
 	</ciManagement>
 
-	<distributionManagement>
-		<site>
-			<id>github</id>
-			<url>scm:git:git@github.com:youngmonkeys/ezyfox-sfs2x-archetype.git</url>
-		</site>
-		<repository>
-			<id>internal.repo</id>
-			<name>Temporary Staging Repository</name>
-			<url>file://${project.build.directory}/mvn-repo</url>
-		</repository>
-	</distributionManagement>
+	<pluginRepositories>
+        <pluginRepository>
+            <id>oss.sonatype.org</id>
+            <url>https://oss.sonatype.org/content/groups/public</url>
+        </pluginRepository>
+    </pluginRepositories>
 
 	<build>
 		<plugins>
@@ -123,4 +118,100 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<profiles>
+		<profile>
+			<id>github</id>
+			<distributionManagement>
+				<site>
+					<id>github</id>
+					<url>scm:git:git@github.com:youngmonkeys/ezyfox-sfs2x-archetype.git</url>
+				</site>
+				<repository>
+					<id>internal.repo</id>
+					<name>Temporary Staging Repository</name>
+					<url>file://${project.build.directory}/mvn-repo</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>sonatype</id>
+			<distributionManagement>
+				<downloadUrl>https://oss.sonatype.org/content/groups/public</downloadUrl>
+		        <repository>
+		            <id>oss.sonatype.org</id>
+		            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		        </repository>
+		        <snapshotRepository>
+		            <id>oss.sonatype.org</id>
+		            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		        </snapshotRepository>
+		        <site>
+		            <id>com.tvd12</id>
+		            <url>http://www.tvd12.com/</url>
+		        </site>
+			</distributionManagement>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-deploy-plugin</artifactId>
+                            <configuration>
+                                <skip>true</skip>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>esa-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!--
+                        Generate -javadoc.jar artifact, required by Maven Central.
+                        -->
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>esa-javadoc</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!-- @see http://www.sonatype.com/books/nexus-book/reference/staging-sect-deployment.html -->
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.6</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss.sonatype.org</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <description>${project.version}</description>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>jcabi-deploy-to-sonatype</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                    <goal>release</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+	</profiles>
 </project>

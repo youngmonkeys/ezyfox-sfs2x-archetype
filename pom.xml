@@ -194,16 +194,17 @@
                         <!-- @see http://www.sonatype.com/books/nexus-book/reference/staging-sect-deployment.html -->
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.6</version>
+                        <version>1.6.7</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>oss.sonatype.org</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                             <description>${project.version}</description>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>jcabi-deploy-to-sonatype</id>
+                                <id>esa-deploy-to-sonatype</id>
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>deploy</goal>

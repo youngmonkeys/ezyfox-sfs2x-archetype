@@ -1,0 +1,13 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="AllTests">
+    <!--Name test cac ham trong package mapper-->
+	<test name="All">
+        <packages>
+            <package name="${package}.api"/>
+        </packages>
+    </test>
+</suite>

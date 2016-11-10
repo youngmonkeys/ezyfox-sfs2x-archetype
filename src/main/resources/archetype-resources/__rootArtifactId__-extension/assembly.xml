@@ -35,7 +35,7 @@
 			<directory>src/main/resources</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>ezyfox-extension.zone.xml</include>
+				<include>${artifactId}.zone.xml</include>
 			</includes>
 		</fileSet>
 	</fileSets>

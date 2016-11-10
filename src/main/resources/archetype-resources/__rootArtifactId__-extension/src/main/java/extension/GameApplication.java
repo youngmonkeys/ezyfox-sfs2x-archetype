@@ -6,13 +6,13 @@
  */
 package ${package}.extension;
 
-import com.tvd12.ezyfox.core.annotation.AppContextConfiguration;
+import com.tvd12.ezyfox.core.annotation.ContextConfiguration;
 import com.tvd12.ezyfox.sfs2x.extension.ZoneExtension;
 
 /**
  * @author tavandung12
  *
  */
-@AppContextConfiguration(clazz = AppConfig.class)
+@ContextConfiguration(clazz = AppConfig.class)
 public class GameApplication extends ZoneExtension {
 }
